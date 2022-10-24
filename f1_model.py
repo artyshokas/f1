@@ -12,8 +12,7 @@ class Team(Base):
     team_name = Column("Team name", String)
     origin = Column("Country", String)
     drivers = relationship("Driver", back_populates="team")
-    part_id = Column("part_id", Integer, ForeignKey("parts.id"))
-    part = relationship("Parts", back_populates="teams")
+    parts = relationship("Part", back_populates="team")
 
     def __repr__(self):
         return f"{self.id}: {self.team_name}, {self.origin}"
@@ -31,26 +30,16 @@ class Driver(Base):
         return f"{self.id}: {self.driver_name} {self.driver_surname} - {self.team}"
 
 
-class Supplier(Base):
-    __tablename__ = "supplier"
-    id = Column(Integer, primary_key=True)
-    supplier_name = Column("Supplier", String)
-    part_id = Column("part_id", Integer, ForeignKey("parts.id"))
-    parts = relationship("Parts", back_populates="suppliers")
-
-    def __repr__(self):
-        return f"{self.id}: {self.supplier_name}"
-
-
-class Parts(Base):
-    __tablename__ = "parts"
+class Part(Base):
+    __tablename__ = "part"
     id = Column(Integer, primary_key=True)
     part_name = Column("Part", String)
-    teams = relationship("Team", back_populates="part")
-    suppliers = relationship("Supplier", back_populates="parts")
+    manufacturer = Column("Manufacturer", String)
+    team_id = Column("team_id", Integer, ForeignKey("team.id"))
+    team = relationship("Team", back_populates="parts")
 
     def __repr__(self):
-        return f"{self.id}: {self.part_name}"
+        return f"{self.id}: {self.part_name}, {self.manufacturer} - {self.team}"
 
 
 
