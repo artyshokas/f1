@@ -1,5 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 from f1_model import engine, Team, Driver, Part
+from pprint import pprint
 
 
 session = sessionmaker(bind=engine)()
@@ -7,9 +8,9 @@ session = sessionmaker(bind=engine)()
 
 while True:
     try:
-        choice = int(input("1 - Enter Data \n 2 - View Data \n 3 - Delete Data \n 4 - EXIT \n"))
+        choice = int(input("1 - Enter Data \n2 - View Data \n3 - Delete Data \n4 - EXIT \n"))
         if choice == 1:
-            entry = int(input("1 - Enter Team \n 2 - Enter Part \n 3 - Enter Driver \n 4 - MENU \n"))
+            entry = int(input("1 - Enter Team \n2 - Enter Part \n3 - Enter Driver \n4 - MENU \n"))
             if entry == 1:
                 team_name = input("Enter Team name: ")
                 origin = input("Enter Team country: ")
@@ -40,25 +41,38 @@ while True:
                 session.commit()
                 print(f"Driver {driver} added")
             if entry == 4:
-                choice = int(input("1 - Enter Data \n 2 - View Data \n 3 - Delete Data \n 4 - EXIT \n"))
+                choice = int(input("1 - Enter Data \n2 - View Data \n3 - Delete Data \n4 - EXIT \n"))
         if choice == 2:
-            view = int(input("1 - View Team \n 2 - View Driver \n 3 - View Parts \n 4 - MENU \n"))
+            view = int(input("1 - View Team \n2 - View Driver \n3 - View Parts \n4 - MENU \n"))
             if view == 1:
                 teams = session.query(Team).all()
                 for team in teams:
+                    print(team)
+                team_id = int(input("Enter Team ID: "))
+                if team_id:
+                    team = session.query(Team).get(team_id)
                     print(team)
             if view == 2:
                 drivers = session.query(Driver).all()
                 for driver in drivers:
                     print(driver)
+                driver_id = int(input("Enter Driver ID for details: "))
+                if driver_id:
+                    driver = session.query(Driver).get(driver_id)
+                    print(driver)
             if view == 3:
                 parts = session.query(Part).all()
                 for part in parts:
                     print(part)
+                part_id = int(input("Enter Part ID for details: "))
+                if part_id:
+                    part = session.query(Part).get(part_id)
+                    # team = session.query(Team).filter(Part.team_id == Team.id).all() question
+                    print(part) # team
             if view == 4:
-                choice = int(input("1 - Enter Data \n 2 - View Data \n 3 - Delete Data \n 4 - EXIT \n"))
+                choice = int(input("1 - Enter Data \n2 - View Data \n3 - Delete Data \n4 - EXIT \n"))
         if choice == 3:
-            delete = int(input("1 - Delete Team \n 2 - Delete Driver \n 3 - Delete Part \n 4 - EXIT \n"))
+            delete = int(input("1 - Delete Team \n2 - Delete Driver \n3 - Delete Part \n4 - EXIT \n"))
             if delete == 1:
                 teams = session.query(Team).all()
                 for team in teams:
@@ -84,7 +98,7 @@ while True:
                 session.commit()
                 print(f"Part {deleting} successfully deleted ")
             if delete == 4:
-                choice = int(input("1 - Enter Data \n 2 - View Data \n 3 - Delete Data \n 4 - EXIT \n"))
+                choice = int(input("1 - Enter Data \n2 - View Data \n3 - Delete Data \n4 - EXIT \n"))
         if choice == 4:
             print("QUIT")
             break
