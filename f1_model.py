@@ -27,7 +27,7 @@ class Driver(Base):
     team = relationship("Team", back_populates="drivers")
 
     def __repr__(self):
-        return f"{self.id}: {self.driver_name} {self.driver_surname} - {self.team}"
+        return f"{self.id}: {self.driver_name} {self.driver_surname} {self.team}"
 
 
 class Part(Base):
@@ -39,7 +39,7 @@ class Part(Base):
     team = relationship("Team", back_populates="parts")
 
     def __repr__(self):
-        return f"{self.id}: {self.part_name}, {self.manufacturer} - {self.team}"
+        return f"{self.id}: {self.part_name}, {self.manufacturer}, {self.team}"
 
 
 
