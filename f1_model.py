@@ -31,6 +31,17 @@ class Driver(Base):
         return f"{self.id}: {self.driver_name} {self.driver_surname} - {self.team}"
 
 
+class Supplier(Base):
+    __tablename__ = "supplier"
+    id = Column(Integer, primary_key=True)
+    supplier_name = Column("Supplier", String)
+    part_id = Column("part_id", Integer, ForeignKey("parts.id"))
+    parts = relationship("Parts", back_populates="suppliers")
+
+    def __repr__(self):
+        return f"{self.id}: {self.supplier_name}"
+
+
 class Parts(Base):
     __tablename__ = "parts"
     id = Column(Integer, primary_key=True)
@@ -40,16 +51,6 @@ class Parts(Base):
 
     def __repr__(self):
         return f"{self.id}: {self.part_name}"
-
-
-class Supplier(Base):
-    __tablename__ = "supplier"
-    id = Column(Integer, primary_key=True)
-    supplier_name = Column("Supplier", String)
-    parts = relationship("Parts", back_populates="suppliers")
-
-    def __repr__(self):
-        return f"{self.id}: {self.supplier_name}"
 
 
 
