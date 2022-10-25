@@ -59,7 +59,13 @@ while True:
                 driver_id = int(input("Enter Driver ID for details: "))
                 if driver_id:
                     driver = session.query(Driver).get(driver_id)
-                    print(driver)
+                    row_select = session.query(Driver) \
+                     .with_entities(Driver.team_id) \
+                         .filter(Driver.id == driver_id).all()
+                    for row in row_select:
+                        team_id = row.team_id
+                    team = session.query(Team).get(team_id)
+                    print(driver, team)
             if view == 3:
                 parts = session.query(Part).all()
                 for part in parts:
@@ -67,8 +73,13 @@ while True:
                 part_id = int(input("Enter Part ID for details: "))
                 if part_id:
                     part = session.query(Part).get(part_id)
-                    # team = session.query(Team).filter(Part.team_id == Team.id).all() question
-                    print(part) # team
+                    row_select = session.query(Part) \
+                        .with_entities(Part.team_id) \
+                            .filter(Part.id == part_id).all()
+                    for row in row_select:
+                        team_id = row.team_id
+                    team = session.query(Team).get(team_id)
+                    print(part, team)
             if view == 4:
                 choice = int(input("1 - Enter Data \n2 - View Data \n3 - Delete Data \n4 - EXIT \n"))
         if choice == 3:
