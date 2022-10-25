@@ -45,13 +45,26 @@ while True:
         if choice == 2:
             view = int(input("1 - View Team \n2 - View Driver \n3 - View Parts \n4 - MENU \n"))
             if view == 1:
-                teams = session.query(Team).all()
-                for team in teams:
-                    print(team)
-                team_id = int(input("Enter Team ID: "))
-                if team_id:
-                    team = session.query(Team).get(team_id)
-                    print(team)
+                select = int(input("1 - Team Drivers \n2 - Team Parts \n3 - MENU \n"))
+                if select == 1:
+                    teams = session.query(Team).all()
+                    for team in teams:
+                        print(team)
+                    team_id = int(input("Enter Team ID: "))
+                    if team_id:
+                        team = session.query(Team).get(team_id)
+                        driver = session.query(Driver).filter(Driver.team_id == team_id).all()
+                        part = session.query(Part).filter(Part.team_id == team_id).all()
+                        print(team, driver)
+                if select == 2:
+                    teams = session.query(Team).all()
+                    for team in teams:
+                        print(team)
+                    team_id = int(input("Enter Team ID: "))
+                    if team_id:
+                        team = session.query(Team).get(team_id)
+                        part = session.query(Part).filter(Part.team_id == team_id).all()
+                        print(team, part)
             if view == 2:
                 drivers = session.query(Driver).all()
                 for driver in drivers:
